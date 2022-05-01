@@ -1,5 +1,3 @@
-'use strict';
-
 const e = React.createElement;
 
 class InitStates extends React.Component {
@@ -21,7 +19,7 @@ class InitStates extends React.Component {
     return (
       <div>
         <form>
-          <label>Initial State:&nbsp;&nbsp;</label>
+          <label>Пчатковий стан:&nbsp;&nbsp;</label>
           <input
             type="text"
             placeholder="q0,qi ..."
@@ -30,7 +28,7 @@ class InitStates extends React.Component {
           />
         </form>
         <form>
-          <label>Final States:&nbsp;&nbsp;</label>
+          <label>Кінцеві стани:&nbsp;&nbsp;</label>
           <input
             type="text"
             placeholder="q5,qj ..."
@@ -97,9 +95,9 @@ class FstInit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      initStatesText: '',
-      finalStatesText: '',
-      transitionArray: [['','',''],]
+      initStatesText: 'q0',
+      finalStatesText: 'q1',
+      transitionArray: [['q0','1','q1'],]
     };
     this.handleInitStatesChange = this.handleInitStatesChange.bind(this);
     this.handleFinalStatesChange = this.handleFinalStatesChange.bind(this);
@@ -136,9 +134,9 @@ class FstInit extends React.Component {
   }
 
   handleClickClean() {
-    this.setState({initStatesText: ''});
-    this.setState({finalStatesText: ''});
-    this.setState({transitionArray: [['','',''],]});
+    this.setState({initStatesText: 'q0'});
+    this.setState({finalStatesText: 'q1'});
+    this.setState({transitionArray: [['q0','0','q1'],]});
   }
 
   handleClickExamle() {
@@ -156,7 +154,6 @@ class FstInit extends React.Component {
   }
 
   render() {
-    var dumpTr = "";
     var transitionRows = [];
     var transitionCount = this.state.transitionArray.length;
     for (var i = 0; i < transitionCount; i++) {
@@ -166,10 +163,14 @@ class FstInit extends React.Component {
             transition={this.state.transitionArray[i]}
             onTransitionChange={this.handleTransitionChange}
           />);
-      dumpTr += this.state.transitionArray[i][0] + ' + ';
-      dumpTr += this.state.transitionArray[i][1] + ' -> ';
-      dumpTr += this.state.transitionArray[i][2] + '; ';
-    }
+    };
+    const nfa = new FST(
+      this.state.initStatesText,
+      this.state.finalStatesText.split(","),
+      this.state.transitionArray);
+    const dotStr = nfa.toDot()
+    console.log(dotStr)
+    d3.select("#input_fst_dot").graphviz().zoom(false).renderDot(dotStr);
     return (
       <div>
         <SimpleButon
@@ -186,16 +187,12 @@ class FstInit extends React.Component {
           onInitStatesChange={this.handleInitStatesChange}
           onFinalStatesChange={this.handleFinalStatesChange}
         />
-        Таблиця переходів:
+        Функція переходів:
         {transitionRows}
         <SimpleButon
           bottonName="Додати перехід"
           onClick={() => this.handleClickAddTransition()}
         />
-          <br/><br/>Debug Out:<br/>
-          &nbsp;&nbsp;initStatesText: {this.state.initStatesText}<br/>
-          &nbsp;&nbsp;finalStatesText: {this.state.finalStatesText}<br/>
-          &nbsp;&nbsp;transitionArray:<br/>{dumpTr}<br/>
       </div>
     );
   }

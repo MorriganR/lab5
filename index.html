@@ -12,7 +12,7 @@
 
     <!-- We will put our React component inside this div. -->
     <div id="react_dom_container"></div>
-
+    <div id="input_fst_dot"></div>
     <!-- Load React. -->
     <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
@@ -20,7 +20,12 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
 
     <!-- Load our React component. -->
+    <script src="fst.js" crossorigin></script>
     <script type="text/jsx" src="react_dom.js" crossorigin></script>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/viz.js@1.8.1/viz.js"></script>
+    <script src="https://unpkg.com/d3-graphviz@2.6.1/build/d3-graphviz.js"></script>
 
   </body>
 </html>
