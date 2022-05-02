@@ -21,11 +21,11 @@ class FST {
 
   toDot() {
     let dotStr = "digraph fst { rankdir=LR;\n";
-    dotStr += "node [shape=doublecircle]; " + this.finalStates.join(",") + ";\n";
+    dotStr += "node [shape=doublecircle]; \"" + this.finalStates.join("\",\"") + "\";\n";
     dotStr += "node [shape=circle];\n";
     dotStr += "start0 [shape=point]; start0 -> \"" + this.initState + "\" [label=start];\n";
     for (const tr of this.transitionFunction) {
-      dotStr += "" + tr[0] + " -> " + tr[2] + " [label=" + tr[1] + "];\n";
+      dotStr += "\"" + tr[0] + "\" -> \"" + tr[2] + "\" [label=\"" + tr[1] + "\"];\n";
     }
     dotStr += "}";
     return dotStr;
