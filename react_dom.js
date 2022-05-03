@@ -47,7 +47,10 @@ class Transition extends React.Component {
   }
 
   handleTransitionChange(e) {
-    this.props.onTransitionChange(this.props.transitionId, e.target.parentElement.elements);
+    const initState = e.target.parentElement.elements[0].value
+    const inSimbol = e.target.parentElement.elements[1].value
+    const nextState = e.target.parentElement.elements[2].value
+    this.props.onTransitionChange(this.props.transitionId, [initState,inSimbol,nextState]);
   }
 
   render() {
@@ -119,7 +122,7 @@ class FstInit extends React.Component {
   handleTransitionChange(id, inValue) {
     //console.log(id);
     const tempTr = this.state.transitionArray.slice();
-    tempTr[id] = [inValue[0].value, inValue[1].value, inValue[2].value];
+    tempTr[id] = inValue;
     this.setState({
       transitionArray: tempTr
     });
@@ -134,9 +137,9 @@ class FstInit extends React.Component {
   }
 
   handleClickClean() {
-    this.setState({initStatesText: 'q0'});
-    this.setState({finalStatesText: 'q1'});
-    this.setState({transitionArray: [['q0','0','q1'],]});
+    this.setState({initStatesText: ''});
+    this.setState({finalStatesText: ''});
+    this.setState({transitionArray: [['','',''],]});
   }
 
   handleClickExamle() {
